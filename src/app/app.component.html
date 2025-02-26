@@ -1,0 +1,29 @@
+<div class="flex flex-col items-center px-6 pt-[100px] w-lvw">
+    <div class="flex items-center content-center min-h-[350px] gap-x-6 w-lg">
+        <div
+            class="relative flex flex-col shadow shadow-amber-600 w-full h-[350px] rounded-2xl items-center justify-center">
+            <div [ngClass]="{'active': fire}" class="flex flex-col items-center justify-center w-[30%] relative">
+                <div class="loader"></div>
+                <img src="/images/net.png" alt="net">
+            </div>
+            @if (invalidFileType) {
+                <p class="mt-4 text-2xl text-red-500 font-medium">Invalid file type</p>
+            } @else {
+                <p class="mt-4 text-2xl text-gray-400 font-medium">Drop your images here</p>
+            }
+            <input #fileInput type="file" (change)="handleChange($event)" [accept]="allowedFileTypes"
+                class="absolute w-full h-full cursor-pointer opacity-0 top-0 left-0" />
+        </div>
+    </div>
+
+    @if (fileList.length) {
+        <div cdkDropList class="file-list mt-4" (cdkDropListDropped)="drop($event)">
+            @for (file of fileList; track file) {
+                <div class="file" cdkDrag>
+                    {{file.name}}
+                    <img *cdkDragPreview [src]="file.preview" [alt]="file.name">
+                </div>
+            }
+        </div>
+    }
+</div>
